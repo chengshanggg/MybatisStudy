@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CommandMain">
+
+  <resultMap type="bean.CommandMain" id="CommandMainResult">
+    <id column="C_ID" jdbcType="INTEGER" property="id"/>
+    <result column="NAME" jdbcType="VARCHAR" property="name"/>
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    <collection property="commandList"  resultMap="CommainContent.CommainContentResult" />
+  </resultMap>
+
+  <select id="queryCommandMain" parameterType="bean.CommandMain" resultMap="CommandMainResult">
+    select a.ID C_ID,a.Name,a.DESCRIPTION,b.CONTENT,b.ID,b.COMMAND_ID 
+    from command_main a left join command_content b on a.ID=b.COMMAND_ID where 1=1
+    <if test="name !=null and !&quot;&quot;.equals(name.trim())">and a.NAME=#{name}</if>
+    
+    <if test="description !=null and !&quot;&quot;.equals(description.trim())">and a.DESCRIPTION like '%' #{description} '%'</if>
+  </select>
+
+  
+  
+</mapper>
